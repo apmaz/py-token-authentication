@@ -4,7 +4,7 @@ from django.db.models import F, Count
 from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from cinema.models import Genre, Actor, CinemaHall, Movie, MovieSession, Order
 from cinema.permissions import IsAdminOrIfAuthenticatedReadOnly
@@ -212,6 +212,6 @@ class OrderViewSet(
         if self.action == "list":
             permission_classes = [IsAdminOrIfAuthenticatedReadOnly]
         else:
-            permission_classes = [IsAuthenticated]
+            permission_classes = [IsAuthenticatedOrReadOnly]
 
         return [permission() for permission in permission_classes]
